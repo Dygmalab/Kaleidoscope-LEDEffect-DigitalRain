@@ -10,6 +10,7 @@ namespace kaleidoscope {
 	void LEDDigitalRainEffect::update(void) {
 		uint8_t col;
 		uint8_t row;
+        uint8_t under;
 		
 		// Decay intensities and possibly make new raindrops
 		for (col = 0; col < COLS; col++) {
@@ -28,6 +29,15 @@ namespace kaleidoscope {
 				::LEDControl.setCrgbAt(row, col, getColor(map[col][row]));
 			}
 		}
+        // set underglow
+        for (under = LEFT_KEYS + RIGHT_KEYS; under < LEFT_KEYS + RIGHT_KEYS + LEFT_UNDERGLOW_LEDS + RIGHT_UNDERGLOW_LEDS; under ++)
+            ::LEDControl.setCrgbAt(under, {0, underglow_breathe, 0 });
+
+        underglow_breathe += underglow_sign;
+        if (underglow_breathe >= PURE_GREEN_INTENSITY || underglow_breathe <= 0) {
+            underglow_sign = -underglow_sign;
+        }
+
 
 		// Drop the raindrops one row periodically
 		if (++drop >= DROP_TICKS) {

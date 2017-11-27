@@ -54,6 +54,8 @@ namespace kaleidoscope {
 			 * This ticks upwards linearly and resets after DROP_TICKS.
 			 */
 			uint8_t drop = 0;
+            uint8_t underglow_breathe = 0;
+            int8_t underglow_sign = 1; //negative values when it's going backward
 
 			/**
 			 * Map of intensities for each pixel.
